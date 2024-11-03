@@ -137,7 +137,7 @@ public class RewindableMessageGrainState<T>
     public long LatestMessageId { get; set; }
 
     [Id(2)]
-    public RewindableMessageWrapper<T>[] Messages { get; set; } = [];
+    public RewindableMessageWrapper<T>[]? Messages { get; set; }
 }
 
 
