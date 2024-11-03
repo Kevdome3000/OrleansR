@@ -25,11 +25,11 @@ public static class Extensions
     /// Adds the OrgnalR grains to the builder, and also automatically registers memory grain storage for group and user lists.
     /// This is useful for local development, however it is recommended that you add a persistent storage for:
     /// <see cref="GROUP_STORAGE_PROVIDER"/>, and <see cref="USER_STORAGE_PROVIDER"/>, and <see cref="MESSAGE_STORAGE_PROVIDER"/>
-    /// Then you may use <see cref="AddOrgnalR<T>(T builder)"/> to add orgnalr using the storage providers of your choice
+    /// Then you may use <see cref="AddOrleansR<T>(T builder)"/> to add orgnalr using the storage providers of your choice
     /// </summary>
     /// <param name="builder">The builder to configure</param>
     /// <returns>The silo builder, configured with memory storage and grains for the OrgnalR backplane</returns>
-    public static ISiloBuilder AddOrgnalRWithMemoryGrainStorage(
+    public static ISiloBuilder AddOrleansRWithMemoryGrainStorage(
         this ISiloBuilder builder,
         Action<OrgnalRSiloConfig>? configure = null
     )
@@ -61,7 +61,7 @@ public static class Extensions
             /* Do nothing, already added  */
         }
 
-        return builder.AddOrgnalR(configure);
+        return builder.AddOrleansR(configure);
     }
 
 
@@ -69,11 +69,11 @@ public static class Extensions
     /// Adds the OrgnalR grains to the builder. This method is recommended for production use.
     /// You must configure storage providers for:
     /// <see cref="GROUP_STORAGE_PROVIDER"/>, and <see cref="USER_STORAGE_PROVIDER"/>, and <see cref="MESSAGE_STORAGE_PROVIDER"/>
-    /// Alternatively, for local development, use: <see cref="AddOrgnalRWithMemoryGrainStorage<T>(T builder)"/>
+    /// Alternatively, for local development, use: <see cref="AddOrleansRWithMemoryGrainStorage<T>(T builder)"/>
     /// </summary>
     /// <param name="builder">The builder to configure</param>
     /// <returns>The silo builder, configured with grains for the OrgnalR backplane</returns>
-    public static ISiloBuilder AddOrgnalR(
+    public static ISiloBuilder AddOrleansR(
         this ISiloBuilder builder,
         Action<OrgnalRSiloConfig>? configure = null
     )

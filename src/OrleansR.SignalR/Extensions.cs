@@ -21,7 +21,7 @@ public static class SignalRExtensions
     /// </summary>
     /// <param name="builder">The SignalR build to configure</param>
     /// <returns>The same same builder, configured to use OrgnalR</returns>
-    public static ISignalRBuilder UseOrgnalR(this ISignalRBuilder builder)
+    public static ISignalRBuilder UseOrleansR(this ISignalRBuilder builder)
     {
         // Will pull the grain factory from the registered services
         builder.Services.AddSingleton<IGrainFactoryProvider, GrainFactoryProvider>();
@@ -148,15 +148,15 @@ public static class SignalRExtensions
 
     public class OrgnalRHubLifetimeManagerFactory<T> : HubLifetimeManager<T> where T : Hub
     {
-        private readonly Task<OrgnalRHubLifetimeManager<T>> @delegate;
+        private readonly Task<OrleansRHubLifetimeManager<T>> @delegate;
 
 
-        public OrgnalRHubLifetimeManagerFactory(IServiceProvider services) => @delegate = OrgnalRHubLifetimeManager<T>.CreateAsync(
+        public OrgnalRHubLifetimeManagerFactory(IServiceProvider services) => @delegate = OrleansRHubLifetimeManager<T>.CreateAsync(
             services.GetRequiredService<IActorProviderFactory>(),
             services.GetRequiredService<IMessageObservable<T>>(),
             services.GetRequiredService<IMessageObserver<T>>(),
             services.GetRequiredService<IMessageArgsSerializer>(),
-            services.GetRequiredService<ILogger<OrgnalRHubLifetimeManager<T>>>()
+            services.GetRequiredService<ILogger<OrleansRHubLifetimeManager<T>>>()
         );
 
 

@@ -18,7 +18,7 @@ using Microsoft.Extensions.Logging;
 /// Implements a SignalR hub backplane through a pub sub mechanism
 /// </summary>
 /// <typeparam name="THub">The hub type this is applicable to</typeparam>
-public class OrgnalRHubLifetimeManager<THub> : HubLifetimeManager<THub>, IDisposable
+public class OrleansRHubLifetimeManager<THub> : HubLifetimeManager<THub>, IDisposable
     where THub : Hub
 {
     private const string CONNECTION_LATEST_MESSAGE_KEY = "ORGNALR_LatestClientMessageHandle";
@@ -28,19 +28,19 @@ public class OrgnalRHubLifetimeManager<THub> : HubLifetimeManager<THub>, IDispos
     private readonly IMessageObservable messageObservable;
     private readonly IMessageObserver messageObserver;
     private readonly IMessageArgsSerializer messageArgsSerializer;
-    private readonly ILogger<OrgnalRHubLifetimeManager<THub>> logger;
+    private readonly ILogger<OrleansRHubLifetimeManager<THub>> logger;
     private readonly string hubName = typeof(THub).Name;
     private SubscriptionHandle? allSubscriptionHandle;
 
     private MessageHandle latestAllMessageHandle;
 
 
-    private OrgnalRHubLifetimeManager(
+    private OrleansRHubLifetimeManager(
         IActorProviderFactory actorProviderFactory,
         IMessageObservable messageObservable,
         IMessageObserver messageObserver,
         IMessageArgsSerializer messageArgsSerializer,
-        ILogger<OrgnalRHubLifetimeManager<THub>> logger
+        ILogger<OrleansRHubLifetimeManager<THub>> logger
     )
     {
         this.actorProviderFactory =
@@ -65,17 +65,17 @@ public class OrgnalRHubLifetimeManager<THub> : HubLifetimeManager<THub>, IDispos
     /// <param name="messageObservable"></param>
     /// <param name="messageObserver"></param>
     /// <param name="cancellationToken"></param>
-    /// <returns>A new instance of <see cref="OrgnalRHubLifetimeManager{THub}<THub>" /> that is subscribed to the anonymous message broadcasts</returns>
-    public static async Task<OrgnalRHubLifetimeManager<THub>> CreateAsync(
+    /// <returns>A new instance of <see cref="OrleansRHubLifetimeManager{THub}<THub>" /> that is subscribed to the anonymous message broadcasts</returns>
+    public static async Task<OrleansRHubLifetimeManager<THub>> CreateAsync(
         IActorProviderFactory actorProviderFactory,
         IMessageObservable messageObservable,
         IMessageObserver messageObserver,
         IMessageArgsSerializer messageArgsSerializer,
-        ILogger<OrgnalRHubLifetimeManager<THub>> logger,
+        ILogger<OrleansRHubLifetimeManager<THub>> logger,
         CancellationToken cancellationToken = default
     )
     {
-        OrgnalRHubLifetimeManager<THub> manager = new(
+        OrleansRHubLifetimeManager<THub> manager = new(
             actorProviderFactory,
             messageObservable,
             messageObserver,
