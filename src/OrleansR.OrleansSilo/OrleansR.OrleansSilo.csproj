@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <PackageId>OrleansR.OrleansSilo</PackageId>
+        <Authors>Liam Morrow</Authors>
+        <Title>
+            OrgnalR Orleans Silo
+        </Title>
+        <Description>
+            The Orleans silo library for OrgnalR. This is the package you'd want on the Orleans Silo application.
+            For the SignalR server, use OrgnalR.SignalR
+        </Description>
+        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+        <LangVersion>default</LangVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\OrleansR.Backplane.GrainImplementations\OrleansR.Backplane.GrainImplementations.csproj" />
+        <ProjectReference Include="..\OrleansR.Backplane.GrainAdaptors\OrleansR.Backplane.GrainAdaptors.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Orleans.Server" Version="7.2.7"/>
+    </ItemGroup>
+</Project>
