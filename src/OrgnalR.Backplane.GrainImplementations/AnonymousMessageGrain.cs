@@ -1,60 +1,66 @@
+namespace OrgnalR.Backplane.GrainImplementations;
+
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using OrgnalR.Backplane.GrainInterfaces;
-using OrgnalR.Core.Provider;
+using Core.Provider;
+using GrainInterfaces;
 using Orleans;
 
-namespace OrgnalR.Backplane.GrainImplementations
+
+public class AnonymousMessageGrain : Grain, IAnonymousMessageGrain
 {
-    public class AnonymousMessageGrain : Grain, IAnonymousMessageGrain
+
+    private readonly GrainObserverManager<IAnonymousMessageObserver> observers = new()
     {
+        ExpirationDuration = TimeSpan.FromMinutes(5),
+        OnFailBeforeDefunct = x => x.SubscriptionEnded()
+    };
 
-        private readonly GrainObserverManager<IAnonymousMessageObserver> observers = new GrainObserverManager<IAnonymousMessageObserver>
-        {
-            ExpirationDuration = TimeSpan.FromMinutes(5),
-            OnFailBeforeDefunct = x => x.SubscriptionEnded()
-        };
-        private IRewindableMessageGrain<AnonymousMessage> rewoundMessagesGrain = null!;
+    private IRewindableMessageGrain<AnonymousMessage> rewoundMessagesGrain = null!;
 
-        public override Task OnActivateAsync(CancellationToken cancellationToken)
+
+    public override Task OnActivateAsync(CancellationToken cancellationToken)
+    {
+        rewoundMessagesGrain = GrainFactory.GetGrain<IRewindableMessageGrain<AnonymousMessage>>(this.GetPrimaryKeyString());
+        return base.OnActivateAsync(cancellationToken);
+    }
+
+
+    public override Task OnDeactivateAsync(DeactivationReason deactivationReason, CancellationToken cancellationToken)
+    {
+        foreach (IAnonymousMessageObserver observer in observers)
         {
-            rewoundMessagesGrain = GrainFactory.GetGrain<IRewindableMessageGrain<AnonymousMessage>>(this.GetPrimaryKeyString());
-            return base.OnActivateAsync(cancellationToken);
+            observer.SubscriptionEnded();
         }
+        return base.OnDeactivateAsync(deactivationReason, cancellationToken);
+    }
 
-        public override Task OnDeactivateAsync(DeactivationReason deactivationReason, CancellationToken cancellationToken)
+
+    public async Task AcceptMessageAsync(AnonymousMessage message, GrainCancellationToken cancellationToken)
+    {
+        MessageHandle handle = await rewoundMessagesGrain.PushMessageAsync(message);
+        observers.Notify(x => x.ReceiveMessage(message, handle));
+    }
+
+
+    public async Task SubscribeToMessages(IAnonymousMessageObserver observer, MessageHandle since)
+    {
+        observers.Subscribe(observer);
+
+        if (since != default)
         {
-            foreach (var observer in observers)
+            foreach ((AnonymousMessage message, MessageHandle handle) in await rewoundMessagesGrain.GetMessagesSinceAsync(since))
             {
-                observer.SubscriptionEnded();
-            }
-            return base.OnDeactivateAsync(deactivationReason, cancellationToken);
-        }
-
-        public async Task AcceptMessageAsync(AnonymousMessage message, GrainCancellationToken cancellationToken)
-        {
-            var handle = await rewoundMessagesGrain.PushMessageAsync(message);
-            observers.Notify(x => x.ReceiveMessage(message, handle));
-        }
-
-        public async Task SubscribeToMessages(IAnonymousMessageObserver observer, MessageHandle since)
-        {
-            observers.Subscribe(observer);
-            if (since != default)
-            {
-                foreach (var (message, handle) in await rewoundMessagesGrain.GetMessagesSinceAsync(since))
-                {
-                    observer.ReceiveMessage(message, handle);
-                }
+                observer.ReceiveMessage(message, handle);
             }
         }
+    }
 
-        public Task UnsubscribeFromMessages(IAnonymousMessageObserver observer)
-        {
-            observers.Unsubscribe(observer);
-            return Task.CompletedTask;
-        }
+
+    public Task UnsubscribeFromMessages(IAnonymousMessageObserver observer)
+    {
+        observers.Unsubscribe(observer);
+        return Task.CompletedTask;
     }
 }

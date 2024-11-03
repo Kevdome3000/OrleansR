@@ -1,15 +1,17 @@
+namespace OrgnalR.Core.Provider;
+
 using System.Collections.Generic;
 using System.Linq;
+using Data;
 using Microsoft.AspNetCore.SignalR;
-using OrgnalR.Core.Data;
 
-namespace OrgnalR.Core.Provider;
 
 internal sealed class HubClients : IHubClients
 {
     private readonly string hubName;
     private readonly IActorProviderFactory providerFactory;
     private readonly IMessageArgsSerializer serializer;
+
 
     public HubClients(
         string hubName,
@@ -22,11 +24,13 @@ internal sealed class HubClients : IHubClients
         this.serializer = serializer;
     }
 
+
     /// <summary>
     /// Gets a message sender for sending messages to all connections in a hub
     /// </summary>
     /// <returns>A <see cref="ClientMessageSender"/> which will send messages to all clients</returns>
     public IClientProxy All => AllExcept(EmptyList<string>.Instance);
+
 
     /// <summary>
     /// Gets a message sender for sending messages to all connections in a hub except for the specified ones
@@ -40,6 +44,7 @@ internal sealed class HubClients : IHubClients
             excludedConnectionIds.ToSet()
         );
 
+
     /// <summary>
     /// Gets a message sender for sending messages to a specific connection
     /// </summary>
@@ -52,15 +57,14 @@ internal sealed class HubClients : IHubClients
             EmptySet<string>.Instance
         );
 
+
     /// <summary>
     /// Gets a message sender for sending messages to many a specific connections
     /// </summary>
     /// <param name="connectionIds">the connectionIds of the clients to send messages to</param>
     /// <returns>A <see cref="MultiClientMessageSender"/> which will send messages to the specified clients</returns>
-    public IClientProxy Clients(IReadOnlyList<string> connectionIds)
-    {
-        return new MultiClientMessageSender(connectionIds.Select(Client).ToList());
-    }
+    public IClientProxy Clients(IReadOnlyList<string> connectionIds) => new MultiClientMessageSender(connectionIds.Select(Client).ToList());
+
 
     /// <summary>
     /// Gets a message sender for sending messages to all connections that are in the specified group
@@ -69,6 +73,7 @@ internal sealed class HubClients : IHubClients
     /// <returns>A <see cref="ClientMessageSender"/> which will send messages to all clients in the group</returns>
     public IClientProxy Group(string groupName) =>
         GroupExcept(groupName, EmptyList<string>.Instance);
+
 
     /// <summary>
     /// Gets a message sender for sending messages to all connections that are in the specified group,
@@ -87,6 +92,7 @@ internal sealed class HubClients : IHubClients
             excludedConnectionIds.ToSet()
         );
 
+
     /// <summary>
     /// Gets a message sender for sending messages to all connections that are in the specified groups
     /// </summary>
@@ -94,6 +100,7 @@ internal sealed class HubClients : IHubClients
     /// <returns>A <see cref="MultiClientMessageSender"/> which will send messages to all clients in the groups</returns>
     public IClientProxy Groups(IReadOnlyList<string> groupNames) =>
         new MultiClientMessageSender(groupNames.Select(Group).ToList());
+
 
     /// <summary>
     /// Gets a message sender for sending messages to all connections that a user is connected with
@@ -106,6 +113,7 @@ internal sealed class HubClients : IHubClients
             serializer,
             EmptySet<string>.Instance
         );
+
 
     /// <summary>
     /// Gets a message sender for sending messages to all connections that the users are connected with

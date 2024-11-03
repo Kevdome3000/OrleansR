@@ -1,10 +1,11 @@
+namespace OrgnalR.Core.Provider;
+
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using OrgnalR.Core.State;
+using State;
 
-namespace OrgnalR.Core.Provider;
 
 /// <summary>
 /// A class which can be used to send messages to connected clients.
@@ -15,6 +16,7 @@ internal sealed class ClientMessageSender : IClientProxy
     private readonly IMessageAcceptor messageAcceptor;
     private readonly IMessageArgsSerializer serializer;
     private readonly ISet<string> excluding;
+
 
     public ClientMessageSender(
         IMessageAcceptor messageAcceptor,
@@ -27,18 +29,16 @@ internal sealed class ClientMessageSender : IClientProxy
         this.excluding = excluding;
     }
 
+
     public Task SendCoreAsync(
         string methodName,
         object?[] parameters,
         CancellationToken cancellationToken = default
-    )
-    {
-        return messageAcceptor.AcceptMessageAsync(
-            new AnonymousMessage(
-                excluding,
-                new MethodMessage(methodName, serializer.Serialize(parameters))
-            ),
-            cancellationToken
-        );
-    }
+    ) => messageAcceptor.AcceptMessageAsync(
+        new AnonymousMessage(
+            excluding,
+            new MethodMessage(methodName, serializer.Serialize(parameters))
+        ),
+        cancellationToken
+    );
 }

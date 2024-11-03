@@ -1,6 +1,7 @@
+namespace OrgnalR.Core.Provider;
+
 using Microsoft.AspNetCore.SignalR;
 
-namespace OrgnalR.Core.Provider;
 
 /// <summary>
 /// Implements the SignalR IHubContext using the OrgnalR services - allows sending messages to connected clients from within grains
@@ -10,6 +11,7 @@ internal sealed class HubContext : IHubContext
     private readonly string hubName;
     private readonly IActorProviderFactory providerFactory;
     private readonly IMessageArgsSerializer serializer;
+
 
     public HubContext(
         string hubName,
@@ -21,6 +23,7 @@ internal sealed class HubContext : IHubContext
         this.providerFactory = providerFactory;
         this.serializer = serializer;
     }
+
 
     public IHubClients Clients => new HubClients(hubName, providerFactory, serializer);
 

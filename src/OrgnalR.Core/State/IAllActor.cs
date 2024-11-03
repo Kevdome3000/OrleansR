@@ -1,4 +1,5 @@
-﻿namespace OrgnalR.Core.State
+﻿namespace OrgnalR.Core.State;
+
+public interface IAllActor : IMessageAcceptor
 {
-    public interface IAllActor : IMessageAcceptor { }
 }

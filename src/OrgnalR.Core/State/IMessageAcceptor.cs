@@ -1,8 +1,9 @@
+namespace OrgnalR.Core.State;
+
 using System.Threading;
 using System.Threading.Tasks;
-using OrgnalR.Core.Provider;
+using Provider;
 
-namespace OrgnalR.Core.State;
 
 public interface IMessageAcceptor
 {

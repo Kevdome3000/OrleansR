@@ -1,3 +1,5 @@
+namespace OrgnalR.Tests.Core.Internal;
+
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,9 +8,8 @@ using Moq;
 using OrgnalR.Core.Provider;
 using Xunit;
 
-namespace OrgnalR.Tests.Core.Internal;
-
 public record MyMethodRequest(string Message);
+
 
 public interface ITestClient
 {
@@ -16,17 +17,18 @@ public interface ITestClient
     Task<int> MyMethodWithAReturnValue();
 }
 
+
 public class TypedClientBuilderTests
 {
     [Fact]
     public async Task GetsAStronglyTypedClient()
     {
-        var clientProxy = new Mock<IClientProxy>();
-        var client = TypedClientBuilder<ITestClient>.Build(clientProxy.Object);
+        Mock<IClientProxy> clientProxy = new();
+        ITestClient client = TypedClientBuilder<ITestClient>.Build(clientProxy.Object);
 
-        var arg1 = "MyArg1";
-        var arg2 = 30;
-        var arg3 = new MyMethodRequest("Message");
+        string arg1 = "MyArg1";
+        int arg2 = 30;
+        MyMethodRequest arg3 = new("Message");
         await client.MyMethod(arg1, arg2, arg3);
 
         clientProxy.Verify(
@@ -39,11 +41,12 @@ public class TypedClientBuilderTests
         );
     }
 
+
     [Fact]
     public async Task ThrowsInvalidOperationExceptionForMethodsWithReturnValues()
     {
-        var clientProxy = new Mock<IClientProxy>();
-        var client = TypedClientBuilder<ITestClient>.Build(clientProxy.Object);
+        Mock<IClientProxy> clientProxy = new();
+        ITestClient client = TypedClientBuilder<ITestClient>.Build(clientProxy.Object);
         await Assert.ThrowsAsync<InvalidOperationException>(client.MyMethodWithAReturnValue);
     }
 }

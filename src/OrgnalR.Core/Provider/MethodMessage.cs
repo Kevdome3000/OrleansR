@@ -1,7 +1,7 @@
+namespace OrgnalR.Core.Provider;
+
 using Orleans;
 
-namespace OrgnalR.Core.Provider
-{
-    [GenerateSerializer]
-    public record MethodMessage(string MethodName, byte[] SerializedArgs);
-}
+
+[GenerateSerializer]
+public record MethodMessage(string MethodName, byte[] SerializedArgs);

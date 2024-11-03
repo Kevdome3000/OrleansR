@@ -1,28 +1,26 @@
+namespace OrgnalR.Core.Data;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Orleans;
 
-namespace OrgnalR.Core.Data
+
+[GenerateSerializer]
+public class EmptyList<T> : IReadOnlyList<T>
 {
-    [GenerateSerializer]
-    public class EmptyList<T> : IReadOnlyList<T>
+    private EmptyList()
     {
-        private EmptyList() { }
-
-        public static readonly EmptyList<T> Instance = new();
-        public int Count => 0;
-
-        public T this[int index] => throw new ArgumentOutOfRangeException(nameof(index));
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return EmptyEnumerator<T>.Instance;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return EmptyEnumerator<T>.Instance;
-        }
     }
+
+
+    public static readonly EmptyList<T> Instance = new();
+    public int Count => 0;
+
+    public T this[int index] => throw new ArgumentOutOfRangeException(nameof(index));
+
+    public IEnumerator<T> GetEnumerator() => EmptyEnumerator<T>.Instance;
+
+
+    IEnumerator IEnumerable.GetEnumerator() => EmptyEnumerator<T>.Instance;
 }

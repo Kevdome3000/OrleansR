@@ -1,11 +1,11 @@
+namespace OrgnalR.Core.Provider;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using OrgnalR.Core.State;
 
-namespace OrgnalR.Core.Provider;
 
 /// <summary>
 /// A class which can be used to send messages to multiple connected clients.
@@ -15,10 +15,8 @@ internal sealed class MultiClientMessageSender : IClientProxy
 {
     private readonly IReadOnlyList<IClientProxy> clientProxies;
 
-    public MultiClientMessageSender(IReadOnlyList<IClientProxy> clientProxies)
-    {
-        this.clientProxies = clientProxies;
-    }
+    public MultiClientMessageSender(IReadOnlyList<IClientProxy> clientProxies) => this.clientProxies = clientProxies;
+
 
     public Task SendCoreAsync(
         string methodName,

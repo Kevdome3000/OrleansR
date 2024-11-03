@@ -1,29 +1,31 @@
+namespace OrgnalR.Core.Data;
+
 using System.Collections;
 using System.Collections.Generic;
 
-namespace OrgnalR.Core.Data
+
+public class EmptyEnumerator<T> : IEnumerator<T>
 {
-    public class EmptyEnumerator<T> : IEnumerator<T>
+    private EmptyEnumerator()
     {
-        private EmptyEnumerator()
-        {
-        }
-        public readonly static EmptyEnumerator<T> Instance = new EmptyEnumerator<T>();
-        public T Current => default!;
+    }
 
-        object IEnumerator.Current => default!;
 
-        public void Dispose()
-        {
-        }
+    public static readonly EmptyEnumerator<T> Instance = new();
+    public T Current => default!;
 
-        public bool MoveNext()
-        {
-            return false;
-        }
+    object IEnumerator.Current => default!;
 
-        public void Reset()
-        {
-        }
+
+    public void Dispose()
+    {
+    }
+
+
+    public bool MoveNext() => false;
+
+
+    public void Reset()
+    {
     }
 }

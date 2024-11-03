@@ -1,4 +1,6 @@
 // Source: https://github.com/dotnet/aspnetcore/blob/fe187fba713f871bd808dea80ea93571bd86f49a/src/SignalR/server/Core/src/Internal/TypedClientBuilder.cs
+namespace OrgnalR.Core.Provider;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 
-namespace OrgnalR.Core.Provider;
 
 internal static class TypedClientBuilder<T>
 {
@@ -25,12 +26,10 @@ internal static class TypedClientBuilder<T>
         .GetConstructors()
         .Single();
 
-    private static readonly Type[] ParameterTypes = new Type[] { typeof(IClientProxy) };
+    private static readonly Type[] ParameterTypes = { typeof(IClientProxy) };
 
-    public static T Build(IClientProxy proxy)
-    {
-        return _builder.Value(proxy);
-    }
+    public static T Build(IClientProxy proxy) => _builder.Value(proxy);
+
 
     public static void Validate()
     {
@@ -38,50 +37,52 @@ internal static class TypedClientBuilder<T>
         _ = _builder.Value;
     }
 
+
     private static Func<IClientProxy, T> GenerateClientBuilder()
     {
         VerifyInterface(typeof(T));
 
-        var assemblyName = new AssemblyName(ClientModuleName);
-        var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(
+        AssemblyName assemblyName = new(ClientModuleName);
+        AssemblyBuilder assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(
             assemblyName,
             AssemblyBuilderAccess.Run
         );
-        var moduleBuilder = assemblyBuilder.DefineDynamicModule(ClientModuleName);
-        var clientType = GenerateInterfaceImplementation(moduleBuilder);
+        ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(ClientModuleName);
+        Type clientType = GenerateInterfaceImplementation(moduleBuilder);
 
-        var factoryMethod = clientType.GetMethod(
+        MethodInfo? factoryMethod = clientType.GetMethod(
             nameof(Build),
             BindingFlags.Public | BindingFlags.Static
         );
         return (Func<IClientProxy, T>)factoryMethod!.CreateDelegate(typeof(Func<IClientProxy, T>));
     }
 
+
     private static Type GenerateInterfaceImplementation(ModuleBuilder moduleBuilder)
     {
-        var name = ClientModuleName + "." + typeof(T).Name + "Impl";
+        string name = ClientModuleName + "." + typeof(T).Name + "Impl";
 
-        var type = moduleBuilder.DefineType(
+        TypeBuilder type = moduleBuilder.DefineType(
             name,
             TypeAttributes.Public,
             typeof(object),
             new[] { typeof(T) }
         );
 
-        var proxyField = type.DefineField(
+        FieldBuilder proxyField = type.DefineField(
             "_proxy",
             typeof(IClientProxy),
             FieldAttributes.Private | FieldAttributes.InitOnly
         );
 
-        var ctor = BuildConstructor(type, proxyField);
+        ConstructorInfo ctor = BuildConstructor(type, proxyField);
 
         // Because a constructor doesn't return anything, it can't be wrapped in a
         // delegate directly, so we emit a factory method that just takes the IClientProxy,
         // invokes the constructor (using newobj) and returns the new instance of type T.
         BuildFactoryMethod(type, ctor);
 
-        foreach (var method in GetAllInterfaceMethods(typeof(T)))
+        foreach (MethodInfo method in GetAllInterfaceMethods(typeof(T)))
         {
             BuildMethod(type, method, proxyField);
         }
@@ -89,31 +90,33 @@ internal static class TypedClientBuilder<T>
         return type.CreateTypeInfo()!;
     }
 
+
     private static IEnumerable<MethodInfo> GetAllInterfaceMethods(Type interfaceType)
     {
-        foreach (var parent in interfaceType.GetInterfaces())
+        foreach (Type parent in interfaceType.GetInterfaces())
         {
-            foreach (var parentMethod in GetAllInterfaceMethods(parent))
+            foreach (MethodInfo parentMethod in GetAllInterfaceMethods(parent))
             {
                 yield return parentMethod;
             }
         }
 
-        foreach (var method in interfaceType.GetMethods())
+        foreach (MethodInfo method in interfaceType.GetMethods())
         {
             yield return method;
         }
     }
 
+
     private static ConstructorInfo BuildConstructor(TypeBuilder type, FieldInfo proxyField)
     {
-        var ctor = type.DefineConstructor(
+        ConstructorBuilder ctor = type.DefineConstructor(
             MethodAttributes.Public,
             CallingConventions.Standard,
             ParameterTypes
         );
 
-        var generator = ctor.GetILGenerator();
+        ILGenerator generator = ctor.GetILGenerator();
 
         // Call object constructor
         generator.Emit(OpCodes.Ldarg_0);
@@ -128,27 +131,29 @@ internal static class TypedClientBuilder<T>
         return ctor;
     }
 
+
     private static void BuildMethod(
         TypeBuilder type,
         MethodInfo interfaceMethodInfo,
         FieldInfo proxyField
     )
     {
-        var methodAttributes =
+        MethodAttributes methodAttributes =
             MethodAttributes.Public
             | MethodAttributes.Virtual
             | MethodAttributes.Final
             | MethodAttributes.HideBySig
             | MethodAttributes.NewSlot;
 
-        var parameters = interfaceMethodInfo.GetParameters();
-        var paramTypes = parameters.Select(param => param.ParameterType).ToArray();
-        var returnType = interfaceMethodInfo.ReturnType;
+        ParameterInfo[] parameters = interfaceMethodInfo.GetParameters();
+        Type[] paramTypes = parameters.Select(param => param.ParameterType).ToArray();
+        Type returnType = interfaceMethodInfo.ReturnType;
         bool isInvoke = returnType != typeof(Task);
 
-        var methodBuilder = type.DefineMethod(interfaceMethodInfo.Name, methodAttributes);
+        MethodBuilder methodBuilder = type.DefineMethod(interfaceMethodInfo.Name, methodAttributes);
 
         MethodInfo invokeMethod;
+
         if (isInvoke)
         {
             invokeMethod = typeof(ISingleClientProxy)
@@ -176,7 +181,7 @@ internal static class TypedClientBuilder<T>
         methodBuilder.SetParameters(paramTypes);
 
         // Sets the number of generic type parameters
-        var genericTypeNames = paramTypes
+        string[] genericTypeNames = paramTypes
             .Where(p => p.IsGenericParameter)
             .Select(p => p.Name)
             .Distinct()
@@ -189,17 +194,18 @@ internal static class TypedClientBuilder<T>
 
         // Check to see if the last parameter of the method is a CancellationToken
         bool hasCancellationToken = paramTypes.LastOrDefault() == typeof(CancellationToken);
+
         if (hasCancellationToken)
         {
             // remove CancellationToken from input paramTypes
             paramTypes = paramTypes.Take(paramTypes.Length - 1).ToArray();
         }
 
-        var methodName =
+        string methodName =
             interfaceMethodInfo.GetCustomAttribute<HubMethodNameAttribute>()?.Name
             ?? interfaceMethodInfo.Name;
 
-        var generator = methodBuilder.GetILGenerator();
+        ILGenerator generator = methodBuilder.GetILGenerator();
 
         // Declare local variable to store the arguments to IClientProxy.SendCoreAsync
         generator.DeclareLocal(typeof(object[]));
@@ -208,10 +214,11 @@ internal static class TypedClientBuilder<T>
         generator.Emit(OpCodes.Ldarg_0);
         generator.Emit(OpCodes.Ldfld, proxyField);
 
-        var isTypeLabel = generator.DefineLabel();
+        Label isTypeLabel = generator.DefineLabel();
+
         if (isInvoke)
         {
-            var singleClientProxyType = typeof(ISingleClientProxy);
+            Type singleClientProxyType = typeof(ISingleClientProxy);
             /*
             if (_proxy is ISingleClientProxy singleClientProxy)
             {
@@ -225,7 +232,7 @@ internal static class TypedClientBuilder<T>
             generator.Emit(OpCodes.Ldstr, "Invoke with non Task return type not supported.");
             generator.Emit(
                 OpCodes.Newobj,
-                typeof(InvalidOperationException).GetConstructor(new Type[] { typeof(string) })!
+                typeof(InvalidOperationException).GetConstructor(new[] { typeof(string) })!
             );
             generator.Emit(OpCodes.Throw);
 
@@ -244,7 +251,7 @@ internal static class TypedClientBuilder<T>
         generator.Emit(OpCodes.Stloc_0);
 
         // Store each parameter in the object array
-        for (var i = 0; i < paramTypes.Length; i++)
+        for (int i = 0; i < paramTypes.Length; i++)
         {
             generator.Emit(OpCodes.Ldloc_0); // Object array loaded
             generator.Emit(OpCodes.Ldc_I4, i);
@@ -273,9 +280,10 @@ internal static class TypedClientBuilder<T>
         generator.Emit(OpCodes.Ret); // Return the Task returned by 'invokeMethod'
     }
 
+
     private static void BuildFactoryMethod(TypeBuilder type, ConstructorInfo ctor)
     {
-        var method = type.DefineMethod(
+        MethodBuilder method = type.DefineMethod(
             nameof(Build),
             MethodAttributes.Public | MethodAttributes.Static,
             CallingConventions.Standard,
@@ -283,12 +291,13 @@ internal static class TypedClientBuilder<T>
             ParameterTypes
         );
 
-        var generator = method.GetILGenerator();
+        ILGenerator generator = method.GetILGenerator();
 
         generator.Emit(OpCodes.Ldarg_0); // Load the IClientProxy argument onto the stack
         generator.Emit(OpCodes.Newobj, ctor); // Call the generated constructor with the proxy
         generator.Emit(OpCodes.Ret); // Return the typed client
     }
+
 
     private static void VerifyInterface(Type interfaceType)
     {
@@ -307,16 +316,17 @@ internal static class TypedClientBuilder<T>
             throw new InvalidOperationException("Type must not contain events.");
         }
 
-        foreach (var method in interfaceType.GetMethods())
+        foreach (MethodInfo method in interfaceType.GetMethods())
         {
             VerifyMethod(method);
         }
 
-        foreach (var parent in interfaceType.GetInterfaces())
+        foreach (Type parent in interfaceType.GetInterfaces())
         {
             VerifyInterface(parent);
         }
     }
+
 
     private static void VerifyMethod(MethodInfo interfaceMethod)
     {
@@ -327,7 +337,7 @@ internal static class TypedClientBuilder<T>
             );
         }
 
-        foreach (var parameter in interfaceMethod.GetParameters())
+        foreach (ParameterInfo parameter in interfaceMethod.GetParameters())
         {
             if (parameter.IsOut)
             {

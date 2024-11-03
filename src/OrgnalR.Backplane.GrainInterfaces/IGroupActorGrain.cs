@@ -1,15 +1,14 @@
+namespace OrgnalR.Backplane.GrainInterfaces;
+
 using System.Threading.Tasks;
-using OrgnalR.Core.Provider;
+using Core.Provider;
 using Orleans;
 
-namespace OrgnalR.Backplane.GrainInterfaces
-{
-    public interface IGroupActorGrain : IGrainWithStringKey
-    {
-        Task AddToGroupAsync(string connectionId, GrainCancellationToken cancellationToken);
-        Task RemoveFromGroupAsync(string connectionId, GrainCancellationToken cancellationToken);
-        Task AcceptMessageAsync(AnonymousMessage message, GrainCancellationToken cancellationToken);
 
-    }
+public interface IGroupActorGrain : IGrainWithStringKey
+{
+    Task AddToGroupAsync(string connectionId, GrainCancellationToken cancellationToken);
+    Task RemoveFromGroupAsync(string connectionId, GrainCancellationToken cancellationToken);
+    Task AcceptMessageAsync(AnonymousMessage message, GrainCancellationToken cancellationToken);
 
 }

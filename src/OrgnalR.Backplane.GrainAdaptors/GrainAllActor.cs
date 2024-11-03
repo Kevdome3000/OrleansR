@@ -1,41 +1,44 @@
+namespace OrgnalR.Backplane.GrainAdaptors;
+
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using OrgnalR.Backplane.GrainInterfaces;
-using OrgnalR.Core;
-using OrgnalR.Core.Provider;
-using OrgnalR.Core.State;
+using Core;
+using Core.Provider;
+using Core.State;
+using GrainInterfaces;
 using Orleans;
 
-namespace OrgnalR.Backplane.GrainAdaptors
+
+public class GrainAllActor : IMessageAcceptor
 {
-    public class GrainAllActor : IMessageAcceptor
+    private readonly string hubName;
+    private readonly IAnonymousMessageGrain anonymousMessageGrain;
+
+
+    public GrainAllActor(string hubName, IAnonymousMessageGrain anonymousMessageGrain)
     {
-        private readonly string hubName;
-        private readonly IAnonymousMessageGrain anonymousMessageGrain;
+        this.hubName = hubName;
+        this.anonymousMessageGrain = anonymousMessageGrain;
+    }
 
-        public GrainAllActor(string hubName, IAnonymousMessageGrain anonymousMessageGrain)
+
+    public Task AcceptMessageAsync(
+        AnonymousMessage message,
+        CancellationToken cancellationToken = default
+    )
+    {
+        message = new AnonymousMessage(
+            message.Excluding.Select(x => $"{hubName}::{x}").ToSet(),
+            message.Payload
+        );
+        GrainCancellationTokenSource token = new();
+
+        if (cancellationToken != default)
         {
-            this.hubName = hubName;
-            this.anonymousMessageGrain = anonymousMessageGrain;
+            cancellationToken.Register(() => token.Cancel());
         }
 
-        public Task AcceptMessageAsync(
-            AnonymousMessage message,
-            CancellationToken cancellationToken = default
-        )
-        {
-            message = new AnonymousMessage(
-                message.Excluding.Select(x => $"{hubName}::{x}").ToSet(),
-                message.Payload
-            );
-            var token = new GrainCancellationTokenSource();
-            if (cancellationToken != default)
-            {
-                cancellationToken.Register(() => token.Cancel());
-            }
-
-            return anonymousMessageGrain.AcceptMessageAsync(message, token.Token);
-        }
+        return anonymousMessageGrain.AcceptMessageAsync(message, token.Token);
     }
 }
