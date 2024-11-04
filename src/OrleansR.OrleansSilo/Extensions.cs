@@ -16,7 +16,7 @@ public static class Extensions
 
     /// <summary>
     /// This will store messages for each SignalR message stream, allowing clients to resubscribe without missing any messages
-    /// This is a best effort resubscribe, and can be configured via <see cref="OrgnalRSiloConfig"/>
+    /// This is a best effort resubscribe, and can be configured via <see cref="OrleansRSiloConfig"/>
     /// </summary>
     public const string MESSAGE_STORAGE_PROVIDER = Constants.MESSAGE_STORAGE_PROVIDER;
 
@@ -31,7 +31,7 @@ public static class Extensions
     /// <returns>The silo builder, configured with memory storage and grains for the OrgnalR backplane</returns>
     public static ISiloBuilder AddOrleansRWithMemoryGrainStorage(
         this ISiloBuilder builder,
-        Action<OrgnalRSiloConfig>? configure = null
+        Action<OrleansRSiloConfig>? configure = null
     )
     {
         try
@@ -75,15 +75,15 @@ public static class Extensions
     /// <returns>The silo builder, configured with grains for the OrgnalR backplane</returns>
     public static ISiloBuilder AddOrleansR(
         this ISiloBuilder builder,
-        Action<OrgnalRSiloConfig>? configure = null
+        Action<OrleansRSiloConfig>? configure = null
     )
     {
         builder.ConfigureServices(
             services =>
             {
-                OrgnalRSiloConfig conf = new();
+                OrleansRSiloConfig conf = new();
                 configure?.Invoke(conf);
-                services.Add(new ServiceDescriptor(typeof(OrgnalRSiloConfig), conf));
+                services.Add(new ServiceDescriptor(typeof(OrleansRSiloConfig), conf));
 
                 services.AddSingleton<IGrainFactoryProvider, GrainFactoryProvider>();
                 builder.Services.AddSingleton<

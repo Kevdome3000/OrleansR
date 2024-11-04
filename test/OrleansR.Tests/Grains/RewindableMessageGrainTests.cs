@@ -18,8 +18,8 @@ public class TestSiloConfigurationsMax1 : ISiloConfigurator
 {
     public void Configure(ISiloBuilder siloBuilder)
     {
-        siloBuilder.AddOrgnalRWithMemoryGrainStorage();
-        siloBuilder.ConfigureServices(services => { services.AddTransient(config => new OrgnalRSiloConfig { MaxMessageRewind = 1 }); });
+        siloBuilder.AddOrleansRWithMemoryGrainStorage();
+        siloBuilder.ConfigureServices(services => { services.AddTransient(config => new OrleansRSiloConfig { MaxMessageRewind = 1 }); });
     }
 }
 
@@ -28,8 +28,8 @@ public class TestSiloConfigurationsMax10 : ISiloConfigurator
 {
     public void Configure(ISiloBuilder siloBuilder)
     {
-        siloBuilder.AddOrgnalRWithMemoryGrainStorage();
-        siloBuilder.ConfigureServices(services => { services.AddTransient(config => new OrgnalRSiloConfig { MaxMessageRewind = 10 }); });
+        siloBuilder.AddOrleansRWithMemoryGrainStorage();
+        siloBuilder.ConfigureServices(services => { services.AddTransient(config => new OrleansRSiloConfig { MaxMessageRewind = 10 }); });
     }
 }
 

@@ -3,7 +3,7 @@ namespace OrleansR.Core;
 using System;
 
 
-public class OrgnalRSiloConfig
+public class OrleansRSiloConfig
 {
     private int maxMessageRewind = 10;
     private TimeSpan persistenceInterval = TimeSpan.FromSeconds(30);

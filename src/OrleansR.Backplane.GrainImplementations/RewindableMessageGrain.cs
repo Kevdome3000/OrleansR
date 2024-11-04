@@ -29,7 +29,7 @@ public class RewindableMessageGrain<T>
 
     public override Task OnActivateAsync(CancellationToken cancellationToken)
     {
-        OrgnalRSiloConfig? config = (OrgnalRSiloConfig?)ServiceProvider?.GetService(typeof(OrgnalRSiloConfig));
+        OrleansRSiloConfig? config = (OrleansRSiloConfig?)ServiceProvider?.GetService(typeof(OrleansRSiloConfig));
         maxMessages = config?.MaxMessageRewind ?? 0;
         persistenceEnabled = config?.PersistenceEnabled ?? false;
         persistenceInterval = config?.PerstenceInterval ?? TimeSpan.Zero;
