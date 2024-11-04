@@ -1,7 +1,6 @@
-using OrgnalR.Core.Provider;
-using TicTacToe.Interfaces.Grains;
-using TicTacToe.Interfaces.HubClients;
+using OrleansR.Core.Provider;
 using TicTacToe.Interfaces.Hubs;
+using TicTacToe.Interfaces.HubClients;
 
 namespace TicTacToe.OrleansSilo.Service;
 
@@ -16,9 +15,9 @@ public class OrgnalRGameHubGameStateNotifier : IGameStateNotifier
 
     public void NotifyNewGameStateAvailable(string gameId)
     {
-        var clientsInGroup = hubContextProvider
-            .GetHubContext<IGameHub, IGameHubClient>()
-            .Clients.Group(gameId);
+        var clientsInGroup = hubContextProvider.GetHubContext< IGameHub, IGameHubClient>()
+            .Groups
+            .GetGroup(gameId);
 
         // Ignore result
         _ = clientsInGroup.NewGameStateAvailable(gameId);

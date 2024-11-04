@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OrgnalR.Silo;
 using Orleans.Configuration;
+using OrleansR.OrleansSilo;
 using TicTacToe.OrleansSilo.Service;
 
 var builder = Host.CreateApplicationBuilder(args);

@@ -6,12 +6,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Orleans.Client" Version="7.2.7" />
-    <ProjectReference Include="..\..\..\src\OrgnalR.SignalR\OrgnalR.SignalR.csproj" />
+      <PackageReference Include="Microsoft.Orleans.Client" Version="8.2.0"/>
+  </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="OrleansR.SignalR">
+            <HintPath>..\..\..\src\OrleansR.SignalR\bin\Debug\net8.0\OrleansR.SignalR.dll</HintPath>
+        </Reference>
   </ItemGroup>
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+      <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
