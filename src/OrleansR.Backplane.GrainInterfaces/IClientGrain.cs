@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Core.Provider;
 using Orleans;
 
-
+[Alias("OrleansR.Backplane.GrainInterfaces.IClientGrain")]
 public interface IClientGrain : IGrainWithStringKey
 {
     Task AcceptMessageAsync(MethodMessage message, GrainCancellationToken cancellationToken);
@@ -21,7 +21,7 @@ public interface IClientGrain : IGrainWithStringKey
     Task UnsubscribeFromMessages(IClientMessageObserver observer);
 }
 
-
+[Alias("OrleansR.Backplane.GrainInterfaces.IClientMessageObserver")]
 public interface IClientMessageObserver : IGrainObserver
 {
     void ReceiveMessage(MethodMessage message, MessageHandle handle);

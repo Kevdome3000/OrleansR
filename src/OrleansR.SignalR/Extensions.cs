@@ -38,7 +38,7 @@ public static class SignalRExtensions
         );
         builder.Services.AddSingleton(
             typeof(HubLifetimeManager<>),
-            typeof(OrgnalRHubLifetimeManagerFactory<>)
+            typeof(OrleansRHubLifetimeManagerFactory<>)
         );
         builder.Services.AddSingleton<GrainProviderReadier>();
 
@@ -146,12 +146,12 @@ public static class SignalRExtensions
     }
 
 
-    public class OrgnalRHubLifetimeManagerFactory<T> : HubLifetimeManager<T> where T : Hub
+    public class OrleansRHubLifetimeManagerFactory<T> : HubLifetimeManager<T> where T : Hub
     {
         private readonly Task<OrleansRHubLifetimeManager<T>> @delegate;
 
 
-        public OrgnalRHubLifetimeManagerFactory(IServiceProvider services) => @delegate = OrleansRHubLifetimeManager<T>.CreateAsync(
+        public OrleansRHubLifetimeManagerFactory(IServiceProvider services) => @delegate = OrleansRHubLifetimeManager<T>.CreateAsync(
             services.GetRequiredService<IActorProviderFactory>(),
             services.GetRequiredService<IMessageObservable<T>>(),
             services.GetRequiredService<IMessageObserver<T>>(),

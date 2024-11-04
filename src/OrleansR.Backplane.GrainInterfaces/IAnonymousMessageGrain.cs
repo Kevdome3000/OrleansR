@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Core.Provider;
 using Orleans;
 
-
+[Alias("OrleansR.Backplane.GrainInterfaces.IAnonymousMessageGrain")]
 public interface IAnonymousMessageGrain : IGrainWithStringKey
 {
     Task AcceptMessageAsync(AnonymousMessage message, GrainCancellationToken cancellationToken);
@@ -22,7 +22,7 @@ public interface IAnonymousMessageGrain : IGrainWithStringKey
 
 }
 
-
+[Alias("OrleansR.Backplane.GrainInterfaces.IAnonymousMessageObserver")]
 public interface IAnonymousMessageObserver : IGrainObserver
 {
     void ReceiveMessage(AnonymousMessage message, MessageHandle handle);
