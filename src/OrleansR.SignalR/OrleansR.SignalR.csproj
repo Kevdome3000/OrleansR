@@ -10,12 +10,11 @@
             For the Orleans Silo, use OrgnalR.OrleansSilo
         </Description>
         <OutputType>Library</OutputType>
-        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-        <TargetFramework/>
+        <TargetFramework>net9.0</TargetFramework>
         <LangVersion>default</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Orleans.Client" Version="8.2.0" />
+        <PackageReference Include="Microsoft.Orleans.Client" Version="9.0.0"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\OrleansR.Core\OrleansR.Core.csproj" />
