@@ -15,12 +15,12 @@ using Orleans;
 public static class SignalRExtensions
 {
     /// <summary>
-    /// Configures SignalR to use the OrgnalR backplane.  Requires that an <see cref="IClusterClient"/> is registered.
+    /// Configures SignalR to use the OrleansR backplane.  Requires that an <see cref="IClusterClient"/> is registered.
     /// If at runtime, your application cannot resolve an IClusterClient, ensure you register one.
     /// Alternatively, before calling this method, register an <see cref="IGrainFactoryProvider"/>.
     /// </summary>
     /// <param name="builder">The SignalR build to configure</param>
-    /// <returns>The same same builder, configured to use OrgnalR</returns>
+    /// <returns>The same same builder, configured to use OrleansR</returns>
     public static ISignalRBuilder UseOrleansR(this ISignalRBuilder builder)
     {
         // Will pull the grain factory from the registered services
@@ -51,8 +51,8 @@ public static class SignalRExtensions
 
     #region Generic Wrappers
 
-    // Below are generic versions of the non generic OrgnalR types.
-    // We use these to allow SignalR to get the correct OrgnalR services for the specific hub that requires them.
+    // Below are generic versions of the non generic OrleansR types.
+    // We use these to allow SignalR to get the correct OrleansR services for the specific hub that requires them.
     // This is important because each service acts on a per hub basis
 
 

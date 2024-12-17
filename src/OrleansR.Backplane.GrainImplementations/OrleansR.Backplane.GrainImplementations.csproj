@@ -3,7 +3,7 @@
         <PackageId>OrleansR.Backplane.GrainImplementations</PackageId>
         <Authors>Liam Morrow</Authors>
         <Title>
-            OrgnalR Backplane Grain Implementations
+            OrleansR Backplane Grain Implementations
         </Title>
         <Description>
             A core package of OrgnalR. You likely want one of either `OrgnalR.SignalR`, or `OrgnalR.OrleansSilo`

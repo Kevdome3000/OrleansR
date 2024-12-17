@@ -1,12 +1,12 @@
 ﻿namespace OrleansR.OrleansSilo;
 
 using System;
+using Backplane.GrainAdaptors;
+using Backplane.GrainImplementations;
 using Core;
 using Core.Provider;
 using Microsoft.Extensions.DependencyInjection;
 using Orleans.Hosting;
-using Backplane.GrainAdaptors;
-using Backplane.GrainImplementations;
 
 
 public static class Extensions
@@ -22,13 +22,13 @@ public static class Extensions
 
 
     /// <summary>
-    /// Adds the OrgnalR grains to the builder, and also automatically registers memory grain storage for group and user lists.
+    /// Adds the OrleansR grains to the builder, and also automatically registers memory grain storage for group and user lists.
     /// This is useful for local development, however it is recommended that you add a persistent storage for:
     /// <see cref="GROUP_STORAGE_PROVIDER"/>, and <see cref="USER_STORAGE_PROVIDER"/>, and <see cref="MESSAGE_STORAGE_PROVIDER"/>
-    /// Then you may use <see cref="AddOrleansR<T>(T builder)"/> to add orgnalr using the storage providers of your choice
+    /// Then you may use <see cref="AddOrleansR<T>(T builder)"/> to add OrleansR using the storage providers of your choice
     /// </summary>
     /// <param name="builder">The builder to configure</param>
-    /// <returns>The silo builder, configured with memory storage and grains for the OrgnalR backplane</returns>
+    /// <returns>The silo builder, configured with memory storage and grains for the OrleansR backplane</returns>
     public static ISiloBuilder AddOrleansRWithMemoryGrainStorage(
         this ISiloBuilder builder,
         Action<OrleansRSiloConfig>? configure = null
@@ -66,13 +66,13 @@ public static class Extensions
 
 
     /// <summary>
-    /// Adds the OrgnalR grains to the builder. This method is recommended for production use.
+    /// Adds the OrleansR grains to the builder. This method is recommended for production use.
     /// You must configure storage providers for:
     /// <see cref="GROUP_STORAGE_PROVIDER"/>, and <see cref="USER_STORAGE_PROVIDER"/>, and <see cref="MESSAGE_STORAGE_PROVIDER"/>
     /// Alternatively, for local development, use: <see cref="AddOrleansRWithMemoryGrainStorage<T>(T builder)"/>
     /// </summary>
     /// <param name="builder">The builder to configure</param>
-    /// <returns>The silo builder, configured with grains for the OrgnalR backplane</returns>
+    /// <returns>The silo builder, configured with grains for the OrleansR backplane</returns>
     public static ISiloBuilder AddOrleansR(
         this ISiloBuilder builder,
         Action<OrleansRSiloConfig>? configure = null

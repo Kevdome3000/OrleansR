@@ -3,10 +3,10 @@
         <PackageId>OrleansR.Core</PackageId>
         <Authors>Liam Morrow</Authors>
         <Title>
-            OrgnalR Core package
+            OrleansR Core package
         </Title>
         <Description>
-            A core package of OrgnalR. You likely want one of either `OrgnalR.SignalR`, or `OrgnalR.OrleansSilo`
+            A core package of OrleansR. You likely want one of either `OrleansR.SignalR`, or `OrleansR.OrleansSilo`
         </Description>
         <OutputType>Library</OutputType>
         <TargetFrameworks>net8.0;net9.0</TargetFrameworks>

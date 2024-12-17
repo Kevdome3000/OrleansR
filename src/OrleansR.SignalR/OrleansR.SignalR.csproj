@@ -3,11 +3,11 @@
         <PackageId>OrleansR.SignalR</PackageId>
         <Authors>Liam Morrow</Authors>
         <Title>
-            OrgnalR SignalR
+            OrleansR SignalR
         </Title>
         <Description>
-            The SignalR library for OrgnalR. This is the package you'd want on the SignalR server.
-            For the Orleans Silo, use OrgnalR.OrleansSilo
+            The SignalR library for OrleansR. This is the package you'd want on the SignalR server.
+            For the Orleans Silo, use OrleansR.OrleansSilo
         </Description>
         <OutputType>Library</OutputType>
         <TargetFramework>net9.0</TargetFramework>

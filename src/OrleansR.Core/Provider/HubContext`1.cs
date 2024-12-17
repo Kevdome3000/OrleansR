@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 
 
 /// <summary>
-/// Implements the SignalR IHubContext using the OrgnalR services - allows sending messages to connected clients from within grains
+/// Implements the SignalR IHubContext using the OrleansR services - allows sending messages to connected clients from within grains
 /// </summary>
 internal sealed class HubContext<THubClient> : IHubContext<Hub<THubClient>, THubClient>
     where THubClient : class

@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <PackageId>OrgnalR.GrainInterfaces</PackageId>
+        <PackageId>OrleansR.GrainInterfaces</PackageId>
         <Authors>Liam Morrow</Authors>
         <Title>
-            OrgnalR Grain Interfaces package
+            OrleansR Grain Interfaces package
         </Title>
         <Description>
-            A core package of OrgnalR. You likely want one of either `OrgnalR.SignalR`, or `OrgnalR.OrleansSilo`
+            A core package of OrleansR. You likely want one of either `OrleansR.SignalR`, or `OrleansR.OrleansSilo`
         </Description>
         <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
         <LangVersion>default</LangVersion>

@@ -6,7 +6,7 @@ using Orleans;
 
 
 /// <summary>
-/// Provides the grain factory to the OrgnalR backplane.
+/// Provides the grain factory to the OrleansR backplane.
 /// See <see cref="GrainFactoryProvider"/> for a simple implementation.
 /// </summary>
 public interface IGrainFactoryProvider

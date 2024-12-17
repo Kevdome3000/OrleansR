@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.SignalR;
 
 
 /// <summary>
-/// Implements the SignalR group manager through OrgnalR.
+/// Implements the SignalR group manager through OrleansR.
 /// <see cref="HubContext"/>
 /// </summary>
 internal class GroupManager : IGroupManager
