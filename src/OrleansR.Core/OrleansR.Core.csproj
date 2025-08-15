@@ -13,9 +13,6 @@
         <LangVersion>default</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="System.IO" Version="4.3.0"/>
-        <PackageReference Include="System.Text.Encoding" Version="4.3.0"/>
         <PackageReference Include="Microsoft.Orleans.Sdk" Version="8.2.0"/>
-        <PackageReference Include="System.Text.Json" Version="8.0.5"/>
     </ItemGroup>
 </Project>
