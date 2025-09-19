@@ -11,11 +11,8 @@ using Microsoft.AspNetCore.SignalR;
 /// A class which can be used to send messages to multiple connected clients.
 /// <see cref="ClientMessageSender"> </see>
 /// </summary>
-internal sealed class MultiClientMessageSender : IClientProxy
+internal sealed class MultiClientMessageSender(IReadOnlyList<IClientProxy> clientProxies) : IClientProxy
 {
-    private readonly IReadOnlyList<IClientProxy> clientProxies;
-
-    public MultiClientMessageSender(IReadOnlyList<IClientProxy> clientProxies) => this.clientProxies = clientProxies;
 
 
     public Task SendCoreAsync(

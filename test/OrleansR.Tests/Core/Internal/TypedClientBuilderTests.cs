@@ -50,3 +50,4 @@ public class TypedClientBuilderTests
         await Assert.ThrowsAsync<InvalidOperationException>(client.MyMethodWithAReturnValue);
     }
 }
+

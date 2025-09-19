@@ -78,8 +78,7 @@ public static class Extensions
         Action<OrleansRSiloConfig>? configure = null
     )
     {
-        builder.ConfigureServices(
-            services =>
+        builder.ConfigureServices(services =>
             {
                 OrleansRSiloConfig conf = new();
                 configure?.Invoke(conf);

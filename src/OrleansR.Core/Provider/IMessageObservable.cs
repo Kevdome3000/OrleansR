@@ -41,8 +41,7 @@ public interface IMessageObservable
 }
 
 
-public class SubscriptionHandle
+public class SubscriptionHandle(Guid subscriptionId)
 {
-    public Guid SubscriptionId { get; }
-    public SubscriptionHandle(Guid subscriptionId) => SubscriptionId = subscriptionId;
+    public Guid SubscriptionId { get; } = subscriptionId;
 }

@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.SignalR;
 
 
-internal sealed class HubClients<THubClient> : IHubClients<THubClient> where THubClient : class
+internal sealed class HubClients<THubClient>(IHubClients hubClients) : IHubClients<THubClient>
+    where THubClient : class
 {
-    private readonly IHubClients hubClients;
-
-    public HubClients(IHubClients hubClients) => this.hubClients = hubClients;
 
     public THubClient All => TypedClientBuilder<THubClient>.Build(hubClients.All);
 

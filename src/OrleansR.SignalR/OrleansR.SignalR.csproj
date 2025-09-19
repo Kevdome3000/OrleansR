@@ -14,10 +14,10 @@
         <LangVersion>default</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Orleans.Client" Version="9.1.2" />
+        <PackageReference Include="Microsoft.Orleans.Client" Version="9.2.1"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\OrleansR.Core\OrleansR.Core.csproj" />
-        <ProjectReference Include="..\OrleansR.Backplane.GrainAdaptors\OrleansR.Backplane.GrainAdaptors.csproj" />
+        <ProjectReference Include="..\OrleansR.Core\OrleansR.Core.csproj"/>
+        <ProjectReference Include="..\OrleansR.Backplane.GrainAdaptors\OrleansR.Backplane.GrainAdaptors.csproj"/>
     </ItemGroup>
 </Project>

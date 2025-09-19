@@ -9,17 +9,8 @@ using Microsoft.AspNetCore.SignalR;
 /// Implements the SignalR group manager through OrleansR.
 /// <see cref="HubContext"/>
 /// </summary>
-internal class GroupManager : IGroupManager
+internal class GroupManager(string hubName, IActorProviderFactory providerFactory) : IGroupManager
 {
-    private readonly string hubName;
-    private readonly IActorProviderFactory providerFactory;
-
-
-    public GroupManager(string hubName, IActorProviderFactory providerFactory)
-    {
-        this.hubName = hubName;
-        this.providerFactory = providerFactory;
-    }
 
 
     public Task AddToGroupAsync(

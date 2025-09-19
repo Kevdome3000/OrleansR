@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Core.Provider;
 using Orleans;
 
+
 [Alias("OrleansR.Backplane.GrainInterfaces.IClientGrain")]
 public interface IClientGrain : IGrainWithStringKey
 {
@@ -20,6 +21,7 @@ public interface IClientGrain : IGrainWithStringKey
 
     Task UnsubscribeFromMessages(IClientMessageObserver observer);
 }
+
 
 [Alias("OrleansR.Backplane.GrainInterfaces.IClientMessageObserver")]
 public interface IClientMessageObserver : IGrainObserver

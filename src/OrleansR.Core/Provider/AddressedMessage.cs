@@ -1,14 +1,9 @@
 namespace OrleansR.Core.Provider;
 
-public class AddressedMessage
+public class AddressedMessage(string connectionId, MethodMessage payload)
 {
-    public string ConnectionId { get; }
-    public MethodMessage Payload { get; }
+    public string ConnectionId { get; } = connectionId;
+    public MethodMessage Payload { get; } = payload;
 
 
-    public AddressedMessage(string connectionId, MethodMessage payload)
-    {
-        ConnectionId = connectionId;
-        Payload = payload;
-    }
 }

@@ -56,8 +56,7 @@ internal static class Util
             return source;
         }
         TaskCompletionSource<int> cancellationTask = new();
-        cancellationToken.Register(
-            () => cancellationTask.TrySetException(new TaskCanceledException(source))
+        cancellationToken.Register(() => cancellationTask.TrySetException(new TaskCanceledException(source))
         );
         return Task.WhenAny(source, cancellationTask.Task);
     }

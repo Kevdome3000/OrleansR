@@ -6,23 +6,11 @@ using Data;
 using Microsoft.AspNetCore.SignalR;
 
 
-internal sealed class HubClients : IHubClients
+internal sealed class HubClients(
+    string hubName,
+    IActorProviderFactory providerFactory,
+    IMessageArgsSerializer serializer) : IHubClients
 {
-    private readonly string hubName;
-    private readonly IActorProviderFactory providerFactory;
-    private readonly IMessageArgsSerializer serializer;
-
-
-    public HubClients(
-        string hubName,
-        IActorProviderFactory providerFactory,
-        IMessageArgsSerializer serializer
-    )
-    {
-        this.hubName = hubName;
-        this.providerFactory = providerFactory;
-        this.serializer = serializer;
-    }
 
 
     /// <summary>
@@ -59,7 +47,7 @@ internal sealed class HubClients : IHubClients
 
 
     /// <summary>
-    /// Gets a message sender for sending messages to many a specific connections
+    /// Gets a message sender for sending messages to many specific connections
     /// </summary>
     /// <param name="connectionIds">the connectionIds of the clients to send messages to</param>
     /// <returns>A <see cref="MultiClientMessageSender"/> which will send messages to the specified clients</returns>

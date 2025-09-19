@@ -7,12 +7,10 @@ using Orleans;
 
 
 [GenerateSerializer]
-public class SingletonList<T> : IReadOnlyList<T>
+public class SingletonList<T>(T value) : IReadOnlyList<T>
 {
     [Id(0)]
-    private readonly T value;
-
-    public SingletonList(T value) => this.value = value;
+    private readonly T value = value;
 
     public T this[int index] =>
         index == 0

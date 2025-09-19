@@ -40,14 +40,9 @@ public class UserActorGrain : Grain<UserActorGrainState>, IUserActorGrain
     }
 
 
-    private Task WriteStateIfDirty(object? _)
-    {
-        if (!dirty)
-        {
-            return Task.CompletedTask;
-        }
-        return WriteStateAsync();
-    }
+    private Task WriteStateIfDirty(object? _) => !dirty
+        ? Task.CompletedTask
+        : WriteStateAsync();
 
 
     public Task AcceptMessageAsync(
@@ -59,8 +54,7 @@ public class UserActorGrain : Grain<UserActorGrainState>, IUserActorGrain
                 State.ConnectionIds
                     .Where(connId => !message.Excluding.Contains(connId))
                     .Select(connId => GrainFactory.GetGrain<IClientGrain>(connId))
-                    .Select(
-                        client => client.AcceptMessageAsync(message.Payload, cancellationToken)
+                    .Select(client => client.AcceptMessageAsync(message.Payload, cancellationToken)
                     )
             )
             .WithCancellation(cancellationToken.CancellationToken);

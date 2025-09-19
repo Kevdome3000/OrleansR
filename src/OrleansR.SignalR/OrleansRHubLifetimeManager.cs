@@ -279,11 +279,10 @@ public class OrleansRHubLifetimeManager<THub> : HubLifetimeManager<THub>, IDispo
     )
     {
         return Task.WhenAll(
-            groupNames.Select(
-                group => SendGroupAsync(group,
-                    methodName,
-                    args,
-                    cancellationToken)
+            groupNames.Select(group => SendGroupAsync(group,
+                methodName,
+                args,
+                cancellationToken)
             )
         );
     }

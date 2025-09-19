@@ -46,20 +46,10 @@ public interface IHubContextProvider
 /// <summary>
 /// The default implementation of the <see cref="IHubContextProvider"/>
 /// </summary>
-public sealed class HubContextProvider : IHubContextProvider
+public sealed class HubContextProvider(
+    IActorProviderFactory providerFactory,
+    IMessageArgsSerializer serializer) : IHubContextProvider
 {
-    private readonly IActorProviderFactory providerFactory;
-    private readonly IMessageArgsSerializer serializer;
-
-
-    public HubContextProvider(
-        IActorProviderFactory providerFactory,
-        IMessageArgsSerializer serializer
-    )
-    {
-        this.providerFactory = providerFactory;
-        this.serializer = serializer;
-    }
 
 
     ///<inheritdoc/>

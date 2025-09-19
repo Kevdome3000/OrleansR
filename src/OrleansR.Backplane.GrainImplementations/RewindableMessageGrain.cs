@@ -91,8 +91,7 @@ public class RewindableMessageGrain<T>
         List<RewindableMessageWrapper<T>> messages = messageBuffer.SkipWhile(x => x.MessageId <= messageIdExclusive).ToList();
         return Task.FromResult(
             messages
-                .Select(
-                    msg => (msg.Message, new MessageHandle(msg.MessageId, State.MessageGroup))
+                .Select(msg => (msg.Message, new MessageHandle(msg.MessageId, State.MessageGroup))
                 )
                 .ToList()
         );

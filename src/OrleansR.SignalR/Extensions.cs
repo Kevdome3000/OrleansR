@@ -42,8 +42,7 @@ public static class SignalRExtensions
         );
         builder.Services.AddSingleton<GrainProviderReadier>();
 
-        builder.Services.AddSingleton<ILifecycleParticipant<IClusterClientLifecycle>>(
-            svc => svc.GetRequiredService<GrainProviderReadier>()
+        builder.Services.AddSingleton<ILifecycleParticipant<IClusterClientLifecycle>>(svc => svc.GetRequiredService<GrainProviderReadier>()
         );
         return builder;
     }

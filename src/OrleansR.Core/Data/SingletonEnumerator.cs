@@ -4,12 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class SingletonEnumerator<T> : IEnumerator<T>
+public class SingletonEnumerator<T>(T value) : IEnumerator<T>
 {
     private bool done;
-    public T Current { get; }
-
-    public SingletonEnumerator(T value) => Current = value;
+    public T Current { get; } = value;
 
     object IEnumerator.Current => Current!;
 

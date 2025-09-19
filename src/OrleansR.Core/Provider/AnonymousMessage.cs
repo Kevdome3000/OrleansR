@@ -5,18 +5,13 @@ using Orleans;
 
 
 [GenerateSerializer]
-public class AnonymousMessage
+public class AnonymousMessage(ISet<string> excluding, MethodMessage payload)
 {
     [Id(0)]
-    public ISet<string> Excluding { get; }
+    public ISet<string> Excluding { get; } = excluding;
 
     [Id(1)]
-    public MethodMessage Payload { get; }
+    public MethodMessage Payload { get; } = payload;
 
 
-    public AnonymousMessage(ISet<string> excluding, MethodMessage payload)
-    {
-        Excluding = excluding;
-        Payload = payload;
-    }
 }
