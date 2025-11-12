@@ -10,7 +10,7 @@
             For the SignalR server, use OrleansR.SignalR
         </Description>
         <LangVersion>default</LangVersion>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\OrleansR.Backplane.GrainImplementations\OrleansR.Backplane.GrainImplementations.csproj"/>
@@ -18,5 +18,17 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.Orleans.Server" Version="9.2.1"/>
+        <PackageReference Include="Roslynator.Analyzers" Version="4.14.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="4.14.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Roslynator.Formatting.Analyzers" Version="4.14.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 </Project>

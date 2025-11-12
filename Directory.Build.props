@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
         <Version>9.0.0</Version>
         <Authors>Liam Morrow</Authors>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
