@@ -17,7 +17,7 @@
         <ProjectReference Include="..\OrleansR.Backplane.GrainAdaptors\OrleansR.Backplane.GrainAdaptors.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Orleans.Server" Version="10.0.1" />
+        <PackageReference Include="Microsoft.Orleans.Server" Version="10.1.0" />
         <PackageReference Include="Roslynator.Analyzers" Version="4.15.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
