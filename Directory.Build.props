@@ -9,7 +9,7 @@
         <IncludeSource>true</IncludeSource>
         <RepositoryUrl>https://github.com/LiamMorrow/OrgnalR</RepositoryUrl>
         <PackageReleaseNotes>
-          Update to .NET 9.0
+            Update to .NET 9.0
         </PackageReleaseNotes>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <LangVersion>13.0</LangVersion>

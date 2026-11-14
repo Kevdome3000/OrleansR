@@ -6,9 +6,13 @@ OrleansR is a backplane for [SignalR core](https://github.com/aspnet/AspNetCore/
 through [Orleans](https://github.com/dotnet/orleans)!
 It allows your SignalR servers to scale out with all the capacity of Orleans grains.
 
-This is an alternative to the Redis backplane, and [SignalR.Orleans](https://github.com/OrleansContrib/SignalR.Orleans). This implementation does not use Orleans streams at all. This project was born out of issues with deadlocks that occured with Orleans streams, and since [SignalR.Orleans](https://github.com/OrleansContrib/SignalR.Orleans) uses them, issues with signalr messages not going through.
+This is an alternative to the Redis backplane, and [SignalR.Orleans](https://github.com/OrleansContrib/SignalR.Orleans).
+This implementation does not use Orleans streams at all. This project was born out of issues with deadlocks that occured
+with Orleans streams, and since [SignalR.Orleans](https://github.com/OrleansContrib/SignalR.Orleans) uses them, issues
+with signalr messages not going through.
 
 ## Getting started
+
 ### Compatibility
 
 Orleans `7.0.0` introduced a large breaking change around serialization and other Orleans primitives. As of `^2.0.0`,
@@ -57,7 +61,8 @@ class Startup {
 ```
 
 Next, Orleans needs to know how to serialize your Hub Requests and Responses.
-The easiest way to achieve this is to annotate your request/response classes with the `GenerateSerializer` attribute, as you would with any of your normal grain models.
+The easiest way to achieve this is to annotate your request/response classes with the `GenerateSerializer` attribute, as
+you would with any of your normal grain models.
 
 Example:
 
@@ -116,7 +121,8 @@ And that's it! Your SignalR server will now use the OrleansR backplane to send m
 
 ## Sending Messages to clients from grains
 
-Sometimes it is useful to send messages to clients from outside of the Hub. SignalR exposes an interface `IHubContext<T>` for this mechanism inside of the server apps which expose SignalR hubs.
+Sometimes it is useful to send messages to clients from outside of the Hub. SignalR exposes an interface
+`IHubContext<T>` for this mechanism inside of the server apps which expose SignalR hubs.
 
 However, in the context of an orleans app, this requirement might still be necessary from the Silo host. To facilitate
 this, OrleansR exposes a interface: [`IHubContextProvider`](/src/OrleansR.Core/Provider/HubContextProvider.cs).
@@ -151,7 +157,8 @@ class MyGrain : IMyGrain{
 }
 ```
 
-Alternatively, if your application has defined interfaces for strongly typed client methods, you can use the generic form:
+Alternatively, if your application has defined interfaces for strongly typed client methods, you can use the generic
+form:
 
 ```csharp
 interface IMyClient{
@@ -189,4 +196,5 @@ frontend.
 
 # Contributing
 
-Contributions are welcome! Simply fork the repository, and submit a PR. If you have an issue, feel free to submit an issue :)
+Contributions are welcome! Simply fork the repository, and submit a PR. If you have an issue, feel free to submit an
+issue :)
