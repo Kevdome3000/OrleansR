@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageId>OrleansR.SignalR</PackageId>
         <Authors>Liam Morrow</Authors>
@@ -10,9 +10,14 @@
             For the Orleans Silo, use OrleansR.OrleansSilo
         </Description>
         <OutputType>Library</OutputType>
-        <TargetFramework>net10.0</TargetFramework>
+        <TargetFramework>net11.0</TargetFramework>
         <LangVersion>default</LangVersion>
     </PropertyGroup>
+    <ItemGroup>
+        <!-- A library: it needs the ASP.NET Core shared framework (SignalR), not the Web SDK, whose static web
+             assets add a hot-reload module that a library without endpoints cannot build on SDK 11. -->
+        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.Orleans.Client" Version="10.4.2" />
         <PackageReference Include="Roslynator.Analyzers" Version="5.0.1">
